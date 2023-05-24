@@ -1,0 +1,32 @@
+body {
+  font-family: Helvetica, Arial, Roboto, sans-serif;
+  font-size: 1rem;
+  margin: 4em;
+}
+
+h1, h2, h3 {
+  border-bottom: 1px solid #eaecef;
+}
+
+code, pre:has(code) {
+  background-color: #eeeeee;
+}
+
+pre:has(code) {
+  font-size: 90%;
+  padding: 0.5em;
+  overflow-x: auto;
+}
+
+.demo {
+  height: 20lh;
+}
+
+iframe.demo {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-spacing: 1em;
+}

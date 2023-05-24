@@ -1,0 +1,128 @@
+<!doctype html>
+<title>CSS Anchor Positioning Explainer</title>
+<link rel="stylesheet" href="../common/explainer-common.css">
+<h1 id="cssanchorpositioningexplainer">CSS Anchor Positioning Explainer</h1>
+<p><a href="https://drafts.csswg.org/css-anchor-position-1/">CSS Anchor positioning</a> is a
+CSS feature that allows an element to position and size itself relative to one
+or more "anchor elements" elsewhere on the page. A typical use case is to "pin"
+a tooltip to something that triggers it.</p>
+<p>This is a short explainer covering the basics of the feature. See also:</p>
+<ul>
+<li><a href="https://developer.chrome.com/blog/tether-elements-to-each-other-with-css-anchor-positioning">Chrome Developers article</a>
+for a comprehensive introduction</li>
+<li><a href="https://drafts.csswg.org/css-anchor-position-1/">Spec</a> for the full technical
+details.</li>
+</ul>
+<h2 id="thebasics">The Basics</h2>
+<p>First, add an
+<a href="https://drafts.csswg.org/css-anchor-position-1/#propdef-anchor-name"><code>anchor-name</code></a>
+to the anchor element:</p>
+<pre><code class="css language-css">.anchor {
+  anchor-name: --my-anchor;
+}
+</code></pre>
+<p>Then, use the
+<a href="https://drafts.csswg.org/css-anchor-position-1/#anchor-pos"><code>anchor()</code></a>
+function to put another element below the anchor:</p>
+<pre><code class="css language-css">.target {
+  position: fixed;             /* Must be position: fixed or absolute *
+  left: anchor(right);         /* Aligns left edge with anchor's right edge */
+  bottom: anchor(top);         /* Aligns bottom edge with anchor's top edge */
+  anchor-default: --my-anchor; /* Sets the default target of the anchor() function */
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"><iframe class="demo" src="./anchor-basic.html"></iframe></th>
+<th style="text-align:center;"><img src="./anchor-basic.png" alt="Basic Example" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"><strong>Live Demo</strong></td>
+<td style="text-align:center;"><strong>Rendered</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>Anchor positioning works by evaluating the <code>anchor()</code> functions into pixel
+values, and then run
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning">CSS Positioned Layout</a>.</li>
+<li>There's also an
+<a href="https://drafts.csswg.org/css-anchor-position-1/#anchor-size"><code>anchor-size()</code></a>
+function that allows sizing an element with the dimensions of the anchor
+element.</li>
+</ul>
+<h2 id="fallbackpositions">Fallback Positions</h2>
+<p>We often want to keep an anchor-positioned element within viewport (if
+possible), while we don't know the anchor's location in advance or it can be
+moved by scrolling.  This can be achieved by setting a list of <a href="https://drafts.csswg.org/css-anchor-position-1/#fallback">fallback
+positions</a>.</p>
+<p>In this example, we will first try to place the target below the anchor, but if
+that overflows the viewport, then move it above:</p>
+<pre><code class="css language-css">.target {
+  position: fixed;
+  left: anchor(right);
+  anchor-default: --my-anchor;
+  position-fallback: --top-then-bottom;
+}
+
+@position-fallback --top-then-bottom {
+  @try { bottom: anchor(top); }
+  @try { top: anchor(bottom); }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"><iframe class="demo" src="./position-fallback.html"></iframe></th>
+<th style="text-align:center;"><img class="demo" src="./position-fallback.gif" alt="Position fallback example"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"><strong>Live Demo</strong></td>
+<td style="text-align:center;"><strong>Rendered</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong>: Setting <code>position: absolute</code> will keep the element within its
+<a href="https://drafts.csswg.org/css-position-3/#def-cb">containing block</a> instead of
+the viewport.</p>
+<h2 id="usingmultipleanchorelements">Using Multiple Anchor Elements</h2>
+<p>The <code>anchor()</code> and <code>anchor-size()</code> functions can optionally take an anchor name
+parameter, so that they are solved against the provided anchor instead of the
+default anchor. This allows us to anchor to multiple elements and create more
+complicated layout.</p>
+<p>In this example (stolen from
+<a href="https://developer.chrome.com/blog/tether-elements-to-each-other-with-css-anchor-positioning/#bar-chart-calc">Jhey Tompkins</a>),
+we create min and max value indicators in a bar chart:</p>
+<pre><code class="css language-css">.max-indicator {
+  position: fixed;
+  left: anchor(--chart right);
+  bottom: max(
+    anchor(--anchor-1 top),
+    anchor(--anchor-2 top),
+    anchor(--anchor-3 top)
+  );
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"><iframe class="demo" src="https://codepen.io/web-dot-dev/embed/PoeNKXJ?height=450&amp;theme-id=light&amp;default-tab=result&amp;editable=true" title="Pen PoeNKXJ by web-dot-dev on Codepen" loading="lazy" allow="camera;clipboard-read; clipboard-write; encrypted-media; geolocation; microphone;midi;">See the Pen <a href="https://codepen.io/web-dot-dev/embed/PoeNKXJ">Pen PoeNKXJ by web-dot-dev on Codepen</a></iframe></th>
+<th style="text-align:center;"><img class="demo" src="./bar-chart-calc.gif" alt="Bar chart calc"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;"><strong>Live Demo</strong></td>
+<td style="text-align:center;"><strong>Rendered</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong>: If <code>anchor-default</code> is not set and scrolling is relevant, we need to set the
+  <a href="https://drafts.csswg.org/css-anchor-position-1/#propdef-anchor-scroll"><code>anchor-scroll</code></a>
+  property to specify which anchor to should scroll with.</p>

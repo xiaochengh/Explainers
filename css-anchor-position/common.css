@@ -1,0 +1,29 @@
+body {
+  font-size: 1rem;
+  background: #ddd;
+}
+
+p {
+  width: min(40ch, 90vw);
+  line-height: 1.2em;
+}
+
+.hint-button::before {
+  font-size: smaller;
+  font-family: monospace;
+  content: '?';
+  padding-left: 0.5ch;
+  padding-right: 0.5ch;
+  background: orange;
+  border-radius: 1em;
+  border: 1px solid black;
+}
+
+.target {
+  width: fit-content;
+  padding: 0.2em;
+  font-size: smaller;
+  font-family: sans-serif;
+  color: white;
+  background: #222;
+}

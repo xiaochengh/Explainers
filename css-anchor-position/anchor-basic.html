@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Basic anchor positioning example</title>
+
+<link rel="stylesheet" href="./anchor-position-prompt.css">
+<link rel="stylesheet" href="./common.css">
+
+<style>
+.anchor {
+  anchor-name: --my-anchor;
+}
+
+.target {
+  position: fixed;             /* Must be position: fixed or absolute */
+  left: anchor(right);         /* Aligns left edge with anchor's right edge */
+  bottom: anchor(top);         /* Aligns bottom edge with anchor's top edge */
+  anchor-default: --my-anchor; /* Sets the default target of the anchor() function */
+}
+</style>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+<span class="hint-button"></span>
+</p>
+
+<p>
+Odio euismod lacinia at quis.
+<span class="hint-button anchor"></span>
+</p>
+
+<p>
+Sagittis orci a scelerisque purus semper eget duis at tellus.
+<span class="hint-button"></span>
+</p>
+
+<p>
+Consectetur purus ut faucibus pulvinar elementum integer.
+<span class="hint-button"></span>
+</p>
+
+<p>
+Sed elementum tempus egestas sed sed risus pretium quam.
+<span class="hint-button"></span>
+</p>
+
+<div class="target">
+  This is a tooltip.
+</div>
+
+<div class="prompt"></div>
+

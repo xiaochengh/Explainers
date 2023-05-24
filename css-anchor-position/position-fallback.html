@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Anchor position fallback example</title>
+
+<link rel="stylesheet" href="./anchor-position-prompt.css">
+<link rel="stylesheet" href="./common.css">
+
+<style>
+.anchor {
+  anchor-name: --my-anchor;
+}
+
+.target {
+  position: fixed;
+  left: anchor(right);
+  anchor-default: --my-anchor;
+  position-fallback: --top-then-bottom;
+}
+
+@position-fallback --top-then-bottom {
+  @try { bottom: anchor(top); }
+  @try { top: anchor(bottom); }
+}
+
+body {
+  height: 200vh;
+}
+</style>
+
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+<span class="hint-button"></span>
+</p>
+
+<p>
+Odio euismod lacinia at quis.
+<span class="hint-button anchor"></span>
+</p>
+
+<p>
+Sagittis orci a scelerisque purus semper eget duis at tellus.
+<span class="hint-button"></span>
+</p>
+
+<p>
+Consectetur purus ut faucibus pulvinar elementum integer.
+<span class="hint-button"></span>
+</p>
+
+<p>
+Sed elementum tempus egestas sed sed risus pretium quam.
+<span class="hint-button"></span>
+</p>
+
+<div class="target">
+  This is a tooltip.
+</div>
+
+<div class="prompt"></div>
+
