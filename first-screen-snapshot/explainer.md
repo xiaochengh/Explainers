@@ -6,7 +6,7 @@ When loading a page, the user typically sees a blank screen before anything is d
 
 The snapshot can be used to create a static splash screen (which is currently only available to PWA and hybrid apps with a WebView).
 
-Demo Link: LINK
+[![Demo Video](https://youtube.com/watch?v=nN0uxNbCSpQ)](https://youtube.com/watch?v=nN0uxNbCSpQ)
 
 This is a very rough draft to gather some thoughts and see if this is something worth pursuing. Any comments are appreciated!
 
